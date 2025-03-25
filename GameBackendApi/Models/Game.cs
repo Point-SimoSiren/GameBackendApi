@@ -19,5 +19,5 @@ public partial class Game
 
     public DateOnly ReleaseDate { get; set; }
 
-    public virtual Genre Genre { get; set; } = null!;
+    //public virtual Genre Genre { get; set; } = null!;
 }

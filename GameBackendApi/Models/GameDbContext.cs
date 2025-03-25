@@ -33,10 +33,10 @@ public partial class GameDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Stars).HasColumnType("decimal(2, 1)");
 
-            entity.HasOne(d => d.Genre).WithMany(p => p.Games)
-                .HasForeignKey(d => d.GenreId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Games_Genres");
+            //entity.HasOne(d => d.Genre).WithMany(p => p.Games)
+            //    .HasForeignKey(d => d.GenreId)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK_Games_Genres");
         });
 
         modelBuilder.Entity<Genre>(entity =>

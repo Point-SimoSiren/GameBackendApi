@@ -32,5 +32,20 @@ namespace GameBackendApi.Controllers
             return Ok($"lisätty uusi genre: {genre.GenreName}.");
         }
 
+
+        // Hakee genret nimen osan perusteella
+        // Hakusana annetaan URL parametrina (esim. /api/genres/genrename/strategia)
+        [HttpGet("genrename/{search}")]
+        public ActionResult SearchGenres(string search)
+        {
+           List<Genre> genres = db.Genres.Where(g => g.GenreName.Contains(search)).ToList();
+            // Täydellinen matchaus
+            // List<Genre> genres = db.Genres.Where(g => g.GenreName == search).ToList();
+
+            return Ok(genres);
+        }
+
+
+
     }
 }
