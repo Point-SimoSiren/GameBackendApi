@@ -57,5 +57,30 @@ namespace GameBackendApi.Controllers
             return Ok(games);
         }
 
-    }
+
+        // Pelin muokkaus
+        [HttpPut("{id}")]
+        public ActionResult EditGame(int id, [FromBody] Game editedGame)
+        {
+            Game? oldGame = db.Games.Find(id);
+            if (oldGame == null)
+            {
+                return NotFound($"Game with id {id} not found for editing.");
+            }
+
+            //oldGame.Name = editedGame.Name;
+            //oldGame.GenreId = editedGame.GenreId;
+            //oldGame.Description = editedGame.Description;
+            //oldGame.Downloads = editedGame.Downloads;
+            //oldGame.Stars = editedGame.Stars;
+            //oldGame.ReleaseDate = editedGame.ReleaseDate;
+
+            db.Entry(oldGame).CurrentValues.SetValues(editedGame);
+
+            db.SaveChanges();
+
+            return Ok($"Game {editedGame.Name} edited succesfully!");
+
+        }
+     }
 }
