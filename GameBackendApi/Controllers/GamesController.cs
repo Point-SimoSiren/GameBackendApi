@@ -19,15 +19,25 @@ namespace GameBackendApi.Controllers
             return Ok(games);
         }
 
+
+
         // Adds new game
         [HttpPost]
         public ActionResult AddNewGame([FromBody] Game game)
         {
-            db.Games.Add(game);
-            db.SaveChanges();
+            try
+            {
+                db.Games.Add(game);
+                db.SaveChanges();
+                return Ok($"Added New Game {game.Name}.");
+            }
 
-            return Ok($"Added New Game {game.Name}.");
+            catch (Exception e)
+            {
+                return BadRequest("Failed to add new game: Read more: " + e.InnerException);
+            }
         }
+
 
         // Searches games based on names
         // Search term is provided as a URL parameter (e.g., /api/games/gamename/strategy)
@@ -37,5 +47,15 @@ namespace GameBackendApi.Controllers
             List<Game> games = db.Games.Where(g => g.Name.Contains(search)).ToList();
             return Ok(games);
         }
+
+
+        // Searches games based on Genre ID
+        [HttpGet("genreid/{genreId}")]
+        public ActionResult SearchGamesByGenreId(int genreId)
+        {
+            List<Game> games = db.Games.Where(g => g.GenreId == genreId).ToList();
+            return Ok(games);
+        }
+
     }
 }
