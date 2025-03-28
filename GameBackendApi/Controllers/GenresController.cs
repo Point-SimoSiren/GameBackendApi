@@ -46,6 +46,22 @@ namespace GameBackendApi.Controllers
         }
 
 
+        // Poistaa genren
+        [HttpDelete("{id}")]
+        public ActionResult DeleteGenre(int id)
+        {
+            // Haetaan Game objekti kannasta id:n perusteella
+            Genre genre = db.Genres.Find(id);
+            if (genre == null)
+            {
+                return NotFound($"Genre with id {id} not found."); // <-- string interpolation
+            // return NotFound("Genre with id " + id + " not found."); <-- perinteinen
+            }
+            // Poisto kohdistuu koko objektiin
+            db.Genres.Remove(genre);
+            db.SaveChanges();
+            return Ok($"Genre {genre.GenreName} deleted.");
+        }
 
     }
 }
