@@ -48,8 +48,6 @@ namespace GameBackendApi.Controllers
 
         // Poistaa genren
         [HttpDelete("{id}")]
-       
-
         public ActionResult DeleteGenre(int id)
         {
             // Haetaan Game objekti kannasta id:n perusteella

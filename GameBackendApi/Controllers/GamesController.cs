@@ -20,7 +20,6 @@ namespace GameBackendApi.Controllers
         }
 
 
-
         // Adds new game
         [HttpPost]
         public ActionResult AddNewGame([FromBody] Game game)
@@ -55,6 +54,21 @@ namespace GameBackendApi.Controllers
         {
             List<Game> games = db.Games.Where(g => g.GenreId == genreId).ToList();
             return Ok(games);
+        }
+
+
+        // Deletes game with the given ID
+        [HttpDelete("{id}")]
+        public ActionResult DeleteGame(int id)
+        {
+            Game? game = db.Games.Find(id);
+            if (game == null)
+            {
+                return NotFound($"Game with id {id} not found for deletion.");
+            }
+            db.Games.Remove(game);
+            db.SaveChanges();
+            return Ok($"Game {game.Name} deleted succesfully!");
         }
 
 
