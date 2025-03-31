@@ -65,5 +65,24 @@ namespace GameBackendApi.Controllers
             return Ok($"Genre {genre.GenreName} deleted.");
         }
 
+        // Genren muokkaus
+        [HttpPut("{id}")]
+        public ActionResult EditGenre(int id, [FromBody] Genre editedGenre)
+        {
+            Genre? oldGenre = db.Genres.Find(id);
+            if (oldGenre == null)
+            {
+                return NotFound($"Game with id {id} not found for editing.");
+            }
+
+            db.Entry(oldGenre).CurrentValues.SetValues(editedGenre);
+
+            db.SaveChanges();
+
+            return Ok($"Genre {oldGenre.GenreName} " +
+                $"edited succesfully to be {editedGenre.GenreName}!");
+
+        }
+
     }
 }

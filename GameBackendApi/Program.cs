@@ -7,6 +7,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+// ------------- Cors politiikan määritys --------------------------
+// Sallitaan yhteys kaikista ip osoitteista
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("all",
+    builder => builder.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,6 +29,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("all"); // <--- Cors määrityksen käyttöönotto
 
 app.UseAuthorization();
 
