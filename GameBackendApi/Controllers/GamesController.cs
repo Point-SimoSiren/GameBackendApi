@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using GameBackendApi.Models; // Models directory
+using GameBackendApi.Models;
+using Microsoft.EntityFrameworkCore; // Models directory
 
 namespace GameBackendApi.Controllers
 {
@@ -11,11 +12,25 @@ namespace GameBackendApi.Controllers
         // Database connection
         private readonly GameDbContext db = new GameDbContext();
 
-        // Search all games 
+        // Get all games with GenreName
         [HttpGet]
         public ActionResult GetGames()
         {
-            var games = db.Games.ToList();
+            var games = db.Games.Join(db.Genres,
+                g => g.GenreId,
+                genre => genre.GenreId,
+                (g, genre) => new
+                {
+                    g.GameId,
+                    g.Name,
+                    g.GenreId,
+                    genre.GenreName,
+                    g.Description,
+                    g.Downloads,
+                    g.Stars,
+                    g.ReleaseDate
+                }).ToList();
+
             return Ok(games);
         }
 
